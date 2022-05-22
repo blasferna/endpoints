@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track</title>
+  </head>
+
+  <body>
+    <button id="toggler">Start</button>
+    <script>
+      const toggler = document.getElementById("toggler");
+      var client_id = Date.now();
+      var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+      var coords = {lat:0, lng: 0};
+      var t;
+      const realTime = function () {
+            console.log(coords);
+            ws.send(JSON.stringify(coords));
+      };
+
+      toggler.addEventListener("click", function () {
+        if (toggler.innerHTML == "Start") {
+          toggler.innerHTML = "Stop";
+          t = setInterval(realTime, 1000);
+        } else {
+          if (t) {
+            toggler.innerHTML = "Start";
+            clearInterval(t);
+          }
+        }
+      });
+
+      if (navigator.geolocation) {
+        // watch for user movement
+        navigator.geolocation.watchPosition(function(position) {
+          coords.lat = position.coords.latitude;
+          coords.lng = position.coords.longitude;
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    </script>
+  </body>
+</html>
