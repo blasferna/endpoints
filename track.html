@@ -12,7 +12,7 @@
     <script>
       const toggler = document.getElementById("toggler");
       var client_id = Date.now();
-      var ws = new WebSocket(`ws://whereisblas.herokuapp.com/ws/${client_id}`);
+      var ws = new WebSocket(`wss://whereisblas.herokuapp.com/ws/${client_id}`);
       var coords = {lat:0, lng: 0};
       var t;
       const realTime = function () {
