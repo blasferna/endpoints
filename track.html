@@ -5,19 +5,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Track</title>
+    <style>
+      .container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        justify-content: center;
+      }
+      .button-wrapper {
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #toggler {
+        background-color: #4caf50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 0.375rem;
+      }
+      #toggler:hover {
+        background-color: #3e8f41;
+        color: white;
+      }
+    </style>
   </head>
 
   <body>
-    <button id="toggler">Start</button>
+    <div class="container">
+      <div class="button-wrapper">
+        <button id="toggler">Start</button>
+      </div>
+    </div>
+
     <script>
       const toggler = document.getElementById("toggler");
       var client_id = Date.now();
       var ws = new WebSocket(`wss://whereisblas.herokuapp.com/ws/${client_id}`);
-      var coords = {lat:0, lng: 0};
+      var coords = { lat: 0, lng: 0 };
       var t;
       const realTime = function () {
-            console.log(coords);
-            ws.send(JSON.stringify(coords));
+        ws.send(JSON.stringify(coords));
       };
 
       toggler.addEventListener("click", function () {
@@ -34,7 +70,7 @@
 
       if (navigator.geolocation) {
         // watch for user movement
-        navigator.geolocation.watchPosition(function(position) {
+        navigator.geolocation.watchPosition(function (position) {
           coords.lat = position.coords.latitude;
           coords.lng = position.coords.longitude;
         });
