@@ -1,8 +1,9 @@
 from typing import List
 
+import requests
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from starlette.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 app.add_middleware(
@@ -59,3 +60,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
+
+
+@app.get("/get-redirect-url")
+async def get(url):
+    r = requests.get(url)
+    return {"url": r.url}
