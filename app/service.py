@@ -64,5 +64,5 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 @app.get("/get-redirect-url")
 async def get(url):
-    r = requests.get(url)
+    r = requests.get(url, timeout=(10, 10))
     return {"url": r.url}
