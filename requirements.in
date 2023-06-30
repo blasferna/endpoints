@@ -3,3 +3,5 @@ uvicorn
 requests
 xhtml2pdf
 python-multipart
+python-dotenv
+gTTS
