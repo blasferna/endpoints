@@ -129,7 +129,7 @@ async def vocabulary(status: str = "") -> VocabularyResponse:
 
 @verify_lang
 @app.get("/tts")
-def tts(text, lang="en"):
+async def tts(text, lang="en"):
     mp3 = BytesIO()
     try:
         gTTS(text=text, lang=lang).write_to_fp(mp3)
