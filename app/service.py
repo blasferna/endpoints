@@ -25,6 +25,7 @@ class Settings(BaseSettings):
 class Vocabulary(BaseModel):
     text: str
     example: Union[str, None] = None
+    audios: List[dict] = []
 
 
 class VocabularyResponse(BaseModel):
@@ -118,7 +119,11 @@ async def vocabulary(status: str = "") -> VocabularyResponse:
         else:
             example = ""
 
-        results.append(Vocabulary(text=text, example=example))
+        audios = []
+        for sound in properties["Example Sound"].get("files", []):
+            audios.append({"name": sound["name"], "url": sound["file"]["url"]})
+
+        results.append(Vocabulary(text=text, example=example, audios=audios))
 
     vr.results = results
     vr.next_cursor = response.get("next_cursor")
