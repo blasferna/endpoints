@@ -3,9 +3,10 @@ from functools import wraps
 from io import BytesIO
 from typing import List, Union
 
+import imgkit
 import requests
 from fastapi import FastAPI, Form, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from gtts import gTTS, gTTSError
 from gtts.lang import tts_langs
 from pydantic import BaseModel, BaseSettings
@@ -156,3 +157,39 @@ async def tts(text, lang="en"):
 
     mp3.seek(0)
     return StreamingResponse(mp3, media_type="audio/mp3")
+
+
+@app.get("/og-image")
+async def create_og_image(title: str):
+    fontSize =  '96px' if len(title) < 60 else '72px'
+    html = f"""
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+                body {{
+                    background: #d3d9fd;
+                    color: #000100;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                    font-family: Arial, sans-serif;
+                }}
+            </style>
+        </head>
+        <body>
+            <h1 style="max-width: 300px">{title}</h1>
+        </body>
+    </html>
+    """
+    options = {
+        'format': 'jpeg',
+        'width': 600,
+        'height': 315,
+        'quality': 100
+    }
+    imgkit.from_string(html, 'out.jpg', options=options)
+    return FileResponse('out.jpg', media_type='image/jpeg')

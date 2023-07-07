@@ -1,7 +1,10 @@
 fastapi
 uvicorn
 requests
-xhtml2pdf
+Pillow==7.0.0
+xhtml2pdf==0.2.5
+reportlab==3.6.6
 python-multipart
 python-dotenv
 gTTS
+imgkit
