@@ -1,8 +1,5 @@
 FROM python:3.8
 
-RUN apt-get update
-RUN apt-get install -y wkhtmltopdf
-
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
