@@ -7,4 +7,3 @@ reportlab==3.6.6
 python-multipart
 python-dotenv
 gTTS
-imgkit
