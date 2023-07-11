@@ -161,10 +161,21 @@ async def tts(text, lang="en"):
 
 
 @app.get(
-    "/generate-og-image/{title}/{sitename}/{tag}/image.png",
+    "/og-image",
     responses={200: {"content": {"image/png": {}}}},
     response_class=Response,
 )
 async def create_og_image(title: str, sitename: str, tag: str):
     image = generate_og_image(title, sitename, tag=tag)
     return Response(image.read(), media_type="image/png")
+
+
+@app.get(
+    "/generate-og-image/{title}/{sitename}/{tag}/image.png",
+    responses={200: {"content": {"image/png": {}}}},
+    response_class=Response,
+)
+async def create_og_image_v2(title: str, sitename: str, tag: str):
+    image = generate_og_image(title, sitename, tag=tag)
+    return Response(image.read(), media_type="image/png")
+
