@@ -161,7 +161,7 @@ async def tts(text, lang="en"):
 
 
 @app.get(
-    "/og-image",
+    "/generate-og-image/{title}/{sitename}/{tag}/image.png",
     responses={200: {"content": {"image/png": {}}}},
     response_class=Response,
 )
